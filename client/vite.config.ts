@@ -1,27 +1,35 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { fileURLToPath } from "url";
+import path from "path";
 
-export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
-  server: {
-    port: 5173,
-    proxy: {
-      "/api": {
-        target: "http://localhost:3000",
-        changeOrigin: true,
-      },
-    },
-  },
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default defineConfig(({ mode }) => ({
+  plugins: [react()],
+  base: mode === "production" ? "/" : "http://localhost:4000/",
   build: {
-    outDir: "dist",
-    sourcemap: true,
+    outDir: path.resolve(__dirname, "dist"),
+    assetsDir: "assets",
+    manifest: true,
     rollupOptions: {
-      output: {
-        manualChunks: {
-          "react-vendor": ["react", "react-dom"],
-        },
+      input: {
+        main: path.resolve(__dirname, "src/main.tsx"),
       },
     },
   },
-});
+  server: {
+    port: 4000,
+    strictPort: true,
+    origin: "http://localhost:4000",
+    hmr: {
+      protocol: "ws",
+      host: "localhost",
+      port: 4000,
+    },
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom"],
+  },
+}));

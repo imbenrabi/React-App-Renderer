@@ -3,11 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title %></title>
-    <link rel="stylesheet" href="/assets/index.css" />
+    <title><%= title || 'Fullstack App' %></title>
+
+    <% if (isDev) { %>
+    <!-- Vite HMR client - must be in head -->
+    <script type="module" src="http://localhost:4000/@vite/client"></script>
+    <!-- React Refresh Runtime - must be in head for development -->
+    <script type="module">
+      import RefreshRuntime from "http://localhost:4000/@react-refresh";
+      RefreshRuntime.injectIntoGlobalHook(window);
+      window.$RefreshReg$ = () => {};
+      window.$RefreshSig$ = () => (type) => type;
+      window.__vite_plugin_react_preamble_installed__ = true;
+    </script>
+    <% } %>
+
+    <!-- Styles -->
+    <% if (!isDev && assets['main.css']) { %>
+    <link rel="stylesheet" href="<%= assets['main.css'] %>" />
+    <% } %>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/index.js"></script>
+
+    <!-- Config must be loaded before main application code -->
+    <script src="/app-config.js"></script>
+
+    <!-- Main application scripts -->
+    <% if (isDev) { %>
+    <script type="module" src="http://localhost:4000/src/main.tsx"></script>
+    <% } else { %> <% if (assets['main.js']) { %>
+    <script type="module" src="<%= assets['main.js'] %>"></script>
+    <% } %> <% } %>
   </body>
 </html>
