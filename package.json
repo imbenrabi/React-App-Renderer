@@ -1,0 +1,16 @@
+{
+  "name": "app-renderer",
+  "version": "1.0.0",
+  "description": "Fullstack TypeScript monorepo",
+  "scripts": {
+    "client": "cd client && npm run dev",
+    "server": "cd server && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "cd client && npm run build && cd ../server && npm run build",
+    "docker:build": "docker build -t fullstack-app .",
+    "docker:run": "docker run -p 3000:3000 fullstack-app"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
