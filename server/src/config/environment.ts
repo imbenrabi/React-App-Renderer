@@ -8,15 +8,19 @@ export interface ServerConfig {
   clientPort: number;
   host: string;
   corsOrigin: string;
+  assetPath: string;
+  baseViteServerPath: string;
 }
 
 export const envSchema = z.object({
   PORT: z.coerce.number().int().default(4001),
   NODE_ENV: z.string().default("development"),
-  API_URL: z.string().default("https://api.example.com"),
+  API_URL: z.string().default("https://api.example.com"), // TODO: Remove
   CLIENT_PORT: z.coerce.number().int().default(4000),
   HOST: z.string().default("0.0.0.0"),
   CORS_ORIGIN: z.string().default("*"),
+  ASSET_PATH: z.string().default(""),
+  BASE_VITE_SERVER_PATH: z.string().default("http://localhost:4000"),
 });
 
 export type EnvConfig = z.infer<typeof envSchema>;
@@ -26,6 +30,7 @@ export function getServerConfig(): ServerConfig {
   const isDev = env.NODE_ENV === "development";
 
   return {
+    assetPath: env.ASSET_PATH,
     port: env.PORT,
     nodeEnv: env.NODE_ENV,
     isDev,
@@ -33,5 +38,6 @@ export function getServerConfig(): ServerConfig {
     clientPort: env.CLIENT_PORT,
     host: env.HOST,
     corsOrigin: env.CORS_ORIGIN,
+    baseViteServerPath: env.BASE_VITE_SERVER_PATH,
   };
 }

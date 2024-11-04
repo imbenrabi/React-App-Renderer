@@ -5,7 +5,6 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.client
-    # Remove the volumes directive for client as it only builds static assets
 
   server:
     build:
@@ -16,7 +15,8 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=4001
-      - API_URL=https://api.example.com
+      - API_URL=https://production-api.example.com
+      - ASSET_PATH=/app/client/dist/.vite
     volumes:
       # Only mount the client build output needed by the server
       - ./client/dist:/app/client/dist

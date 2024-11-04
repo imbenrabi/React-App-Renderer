@@ -57,8 +57,9 @@ function getMockAppConfig(config: ServerConfig): AppConfig {
 
 async function getViewParams(config: ServerConfig) {
   return {
-    assets: await getViteAssets(),
+    assets: config.isDev ? {} : await getViteAssets(config),
     title: APP_TITLE,
     isDev: config.isDev,
+    baseViteServerPath: config.baseViteServerPath,
   };
 }

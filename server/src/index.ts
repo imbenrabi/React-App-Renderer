@@ -18,7 +18,7 @@ import { getCorsConfig } from "./config/cors";
   await initRenderingService(server, config);
 
   try {
-    await server.listen({ port: config.port, host: "0.0.0.0" });
+    await server.listen({ port: config.port, host: config.host });
     if (config.isDev) {
       console.log(`Server is running at http://localhost:${config.port}`);
     } else {

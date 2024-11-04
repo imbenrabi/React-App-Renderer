@@ -7,10 +7,10 @@
 
     <% if (isDev) { %>
     <!-- Vite HMR client - must be in head -->
-    <script type="module" src="http://localhost:4000/@vite/client"></script>
+    <script type="module" src="<%= baseViteServerPath %>/@vite/client"></script>
     <!-- React Refresh Runtime - must be in head for development -->
     <script type="module">
-      import RefreshRuntime from "http://localhost:4000/@react-refresh";
+      import RefreshRuntime from "<%= baseViteServerPath %>/@react-refresh";
       RefreshRuntime.injectIntoGlobalHook(window);
       window.$RefreshReg$ = () => {};
       window.$RefreshSig$ = () => (type) => type;
@@ -31,7 +31,7 @@
 
     <!-- Main application scripts -->
     <% if (isDev) { %>
-    <script type="module" src="http://localhost:4000/src/main.tsx"></script>
+    <script type="module" src="<%= baseViteServerPath %>/src/main.tsx"></script>
     <% } else { %> <% if (assets['main.js']) { %>
     <script type="module" src="<%= assets['main.js'] %>"></script>
     <% } %> <% } %>
