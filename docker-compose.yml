@@ -5,8 +5,7 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.client
-    volumes:
-      - ./client/dist:/app/dist
+    # Remove the volumes directive for client as it only builds static assets
 
   server:
     build:
@@ -19,6 +18,7 @@ services:
       - PORT=4001
       - API_URL=https://api.example.com
     volumes:
+      # Only mount the client build output needed by the server
       - ./client/dist:/app/client/dist
     depends_on:
       - client

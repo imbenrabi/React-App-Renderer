@@ -33,11 +33,11 @@ export const initRenderingService = async (
   server.get<{
     Reply: string;
   }>("/app-config.js", async (_, reply) => {
-    const config: AppConfig = getMockAppConfig();
+    const appConfig: AppConfig = getMockAppConfig(config);
 
     return reply
       .type("application/javascript")
-      .send(`window.${APP_CONFIG_KEY} = ${JSON.stringify(config)};`);
+      .send(`window.${APP_CONFIG_KEY} = ${JSON.stringify(appConfig)};`);
   });
 
   // Render index page
@@ -48,10 +48,10 @@ export const initRenderingService = async (
   });
 };
 
-function getMockAppConfig(): AppConfig {
+function getMockAppConfig(config: ServerConfig): AppConfig {
   return {
-    apiUrl: "https://api.example.com",
-    environment: "development",
+    apiUrl: config.apiUrl,
+    environment: config.nodeEnv,
   };
 }
 
