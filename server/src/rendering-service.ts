@@ -42,13 +42,9 @@ export const initRenderingService = async (
 
   // Render index page
   server.get("/", async (request, reply) => {
-    const assets = await getViteAssets();
+    const viewParams = await getViewParams(config);
 
-    return reply.view("index.ejs", {
-      title: APP_TITLE,
-      assets,
-      isDev: config.isDev,
-    });
+    return reply.view("index.ejs", viewParams);
   });
 };
 
@@ -56,5 +52,13 @@ function getMockAppConfig(): AppConfig {
   return {
     apiUrl: "https://api.example.com",
     environment: "development",
+  };
+}
+
+async function getViewParams(config: ServerConfig) {
+  return {
+    assets: await getViteAssets(),
+    title: APP_TITLE,
+    isDev: config.isDev,
   };
 }
