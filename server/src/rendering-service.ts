@@ -32,7 +32,7 @@ export const initRenderingService = async (
   // Inject app config
   server.get<{
     Reply: string;
-  }>("/app-config.js", async (request, reply) => {
+  }>("/app-config.js", async (_, reply) => {
     const config: AppConfig = getMockAppConfig();
 
     return reply
@@ -41,7 +41,7 @@ export const initRenderingService = async (
   });
 
   // Render index page
-  server.get("/", async (request, reply) => {
+  server.get("/", async (_, reply) => {
     const viewParams = await getViewParams(config);
 
     return reply.view("index.ejs", viewParams);

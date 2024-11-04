@@ -5,13 +5,14 @@ import sensible from "@fastify/sensible";
 import { getServerConfig } from "./config/environment";
 import { initRenderingService } from "./rendering-service";
 import { getHelmetConfig } from "./config/helmet";
+import { getCorsConfig } from "./config/cors";
 
 (async function startServer() {
   const server = Fastify({ logger: true });
   const config = getServerConfig();
 
   await server.register(sensible);
-  await server.register(cors);
+  await server.register(cors, getCorsConfig(config));
   await server.register(helmet, getHelmetConfig(config));
 
   await initRenderingService(server, config);

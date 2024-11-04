@@ -6,6 +6,8 @@ export interface ServerConfig {
   isDev: boolean;
   apiUrl: string;
   clientPort: number;
+  host: string;
+  corsOrigin: string;
 }
 
 export const envSchema = z.object({
@@ -13,6 +15,8 @@ export const envSchema = z.object({
   NODE_ENV: z.string().default("development"),
   API_URL: z.string().default("https://api.example.com"),
   CLIENT_PORT: z.coerce.number().int().default(4000),
+  HOST: z.string().default("0.0.0.0"),
+  CORS_ORIGIN: z.string().default("*"),
 });
 
 export type EnvConfig = z.infer<typeof envSchema>;
@@ -27,5 +31,7 @@ export function getServerConfig(): ServerConfig {
     isDev,
     apiUrl: env.API_URL,
     clientPort: env.CLIENT_PORT,
+    host: env.HOST,
+    corsOrigin: env.CORS_ORIGIN,
   };
 }

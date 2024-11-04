@@ -1,16 +1,24 @@
 version: "3.8"
 
 services:
-  app:
+  client:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./client
+      dockerfile: Dockerfile.client
+    volumes:
+      - ./client/dist:/app/dist
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.server
     ports:
       - "4001:4001"
-    volumes:
-      - ./client:/app/client
-      - ./server:/app/server
-      - /app/client/node_modules
-      - /app/server/node_modules
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
+      - PORT=4001
+      - API_URL=https://api.example.com
+    volumes:
+      - ./client/dist:/app/client/dist
+    depends_on:
+      - client
