@@ -1,4 +1,4 @@
-# React - Vite Application, Servded through Fastify and ejs template
+# React - Vite Application, Served using Fastify server and ejs template
 
 ## Running the application
 
