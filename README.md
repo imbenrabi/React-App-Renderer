@@ -2,6 +2,10 @@
 
 ## Running the application
 
+## Prerequisites
+
+- Docker
+
 ### Development
 
 - Install dependencies
